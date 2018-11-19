@@ -23,20 +23,29 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
  
 -- The local variables for this scene
-local beetleship
-local scrollXSpeed = 8
-local scrollYSpeed = -3
-local jungleSounds = audio.loadSound("Sounds/animals144.mp3")
-local jungleSoundsChannel
+local name
+local logo
+local scrollSpeed = 3
+local swordSound = audio.loadSound("Sounds/sword.mp3")
+local swordSoundChannel
 
 --------------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 
 -- The function that moves the beetleship across the screen
-local function moveBeetleship()
-    beetleship.x = beetleship.x + scrollXSpeed
-    beetleship.y = beetleship.y + scrollYSpeed
+local function moveLogo()
+     -- add the scroll speed to the x-value of the ship
+     logo.x = logo.x + scrollSpeed
+     -- change the transparency of the ship every time it moves so that it fades in
+     logo.alpha = logo.alpha + 0.01
+     logo:scale(1.005,1.005)
+end  
+
+local function NameFadeIn()
+    -- add to the alpha
+    name.alpha = name.alpha + 0.006
+
 end
 
 -- The function that will go to the main menu 
@@ -58,15 +67,19 @@ function scene:create( event )
     display.setDefault("background", 0, 0, 0)
 
     -- Insert the beetleship image
-    beetleship = display.newImageRect("Images/beetleship.png", 200, 200)
+    logo = display.newImageRect("Images/CompanyLogoFinn.png", 200, 200)
 
     -- set the initial x and y position of the beetleship
-    beetleship.x = 100
-    beetleship.y = display.contentHeight/2
+    logo.x = 100
+    logo.y = display.contentHeight/2
+
+    --diplsay company name
+     name = display.newText("Dark Excalibur" ,  400, 100, nil,  75)
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( logo )
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( beetleship )
-
+    sceneGroup:insert( name )
 end -- function scene:create( event )
 
 --------------------------------------------------------------------------------------------
@@ -90,13 +103,16 @@ function scene:show( event )
 
     elseif ( phase == "did" ) then
         -- start the splash screen music
-        jungleSoundsChannel = audio.play(jungleSounds )
+        swordSoundChannel = audio.play(swordSound )
 
         -- Call the moveBeetleship function as soon as we enter the frame.
-        Runtime:addEventListener("enterFrame", moveBeetleship)
+        Runtime:addEventListener("enterFrame", moveLogo)
+
+         -- Call the moveBeetleship function as soon as we enter the frame.
+        Runtime:addEventListener("enterFrame", NameFadeIn)
 
         -- Go to the main menu screen after the given time.
-        timer.performWithDelay ( 3000, gotoMainMenu)          
+        timer.performWithDelay ( 5000, gotoMainMenu)          
         
     end
 
@@ -124,7 +140,7 @@ function scene:hide( event )
     elseif ( phase == "did" ) then
         
         -- stop the jungle sounds channel for this screen
-        audio.stop(jungleSoundsChannel)
+        audio.stop(swordSoundChannel)
     end
 
 end --function scene:hide( event )
