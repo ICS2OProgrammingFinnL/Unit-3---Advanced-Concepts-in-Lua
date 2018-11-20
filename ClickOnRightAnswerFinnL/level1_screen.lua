@@ -123,8 +123,11 @@ local function DisplayAnswers( )
 end
 
 -- Function that transitions to Lose Screen
-local function LoseScreenTransition( )        
-    composer.gotoScene( "you_lose", {effect = "zoomInOutFade", time = 1000})
+local function LoseScreenTransition( )    
+
+        if (numberCorrect == 5) then
+        composer.gotoScene( "you_win", {effect = "zoomInOutFade", time = 1000})
+    end
 end 
 
 -- The function that displays the equation and determines the answer and the wrong answers
@@ -179,6 +182,7 @@ local function TouchListenerAnswer(touch)
             correct.isVisible = true
             -- increase the number correct by 1
             numberCorrect = numberCorrect + 1
+            LoseScreenTransition()
             -- call RestartScene after 1 second
             timer.performWithDelay( 1000, RestartScene )
         end        
@@ -275,10 +279,10 @@ function scene:create( event )
     addEquationTextObject:setTextColor(155/255, 42/255, 198/255)
 
     -- create the text objects that will hold the correct answer and the wrong answers
-    answerTextObject = display.newText("", display.contentWidth*.4, display.contentHeight/2, nil, 50 )
-    wrongAnswer1TextObject = display.newText("", display.contentWidth*.3, display.contentHeight/2, nil, 50 )
-    wrongAnswer2TextObject = display.newText("", display.contentWidth*.2, display.contentHeight/2, nil, 50 )
-    numberCorrectText = display.newText("", display.contentWidth*4/5, display.contentHeight*6/7, nil, 25)
+    answerTextObject = display.newText("", display.contentWidth*.4, display.contentHeight/2, nil, 40 )
+    wrongAnswer1TextObject = display.newText("", display.contentWidth*.3, display.contentHeight/2, nil, 40 )
+    wrongAnswer2TextObject = display.newText("", display.contentWidth*.2, display.contentHeight/2, nil, 40 )
+    numberCorrectText = display.newText("", display.contentWidth*4/5, display.contentHeight*6/7, nil, 30)
 
     -- create the text object that will hold the number of lives
     livesText = display.newText("", display.contentWidth*4/5, display.contentHeight*8/9, nil, 25) 
@@ -337,7 +341,7 @@ function scene:show( event )
     elseif ( phase == "did" ) then
 
         -- initialize the number of lives and number correct 
-        lives = 3
+        lives = 2
         numberCorrect = 0
 
         -- listeners to each of the answer text objects

@@ -114,7 +114,7 @@ function scene:create( event )
             y = display.contentHeight*7/8,
 
             width = 150,
-            height = 150,
+            height = 175,
 
             -- Insert the images here
             defaultFile = "Images/CreditsButtonUnpressedValentinaG.png",
@@ -127,7 +127,7 @@ function scene:create( event )
      instructionsButton = widget.newButton( 
         {
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*7/8,
+            x = display.contentWidth*1/8,
             y = display.contentHeight*7/8,
 
             width = 150,
@@ -135,7 +135,7 @@ function scene:create( event )
 
             -- Insert the images here
             defaultFile = "Images/InstructionsButtonUnpressedFinnL.png",
-            overFile = "Images/InstructionsButtonPressedFinnL.png",
+            overFile = "Images/InstructionButtonPressedFinnL.png",
 
             -- When the button is released, call the Credits transition function
             onRelease = CreditsTransition

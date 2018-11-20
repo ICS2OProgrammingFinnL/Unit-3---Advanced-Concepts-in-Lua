@@ -64,7 +64,7 @@ function scene:create( event )
     local sceneGroup = self.view
 
     -- set the background to be black
-    display.setDefault("background", 0, 0, 0)
+    display.setDefault("background", 20/255, 20/255, 20/255)
 
     -- Insert the beetleship image
     logo = display.newImageRect("Images/CompanyLogoFinn.png", 200, 200)
