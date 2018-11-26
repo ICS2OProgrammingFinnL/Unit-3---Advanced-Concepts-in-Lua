@@ -67,9 +67,9 @@ local livesText
 -- the text displaying congratulations
 local congratulationText 
 
--- Displays text that says correct.
+-- Displays text that says correct and incorrect.
 local correct 
-
+local incorrect
 -- Displays the level text of time text
 local level1Text 
 
@@ -80,8 +80,25 @@ local alreadyClickedAnswer = false
 -----------------------------------------------------------------------------------------
 -- SOUND
 -----------------------------------------------------------------------------------------
+--load and play the music
+local music = audio.loadSound("Sounds/EpicMusic.mp3")
+local musicChannel = audio.play(music)
 
+--load and the correct sound
+local correctSound = audio.loadSound("Sounds/CorrectAnswer.mp3")
+local correctChannel
 
+--load and the incorrect sound
+local incorrectSound = audio.loadSound("Sounds/WrongBuzzer.mp3")
+local incorrectChannel
+
+--load and the you lose sound
+local failSound = audio.loadSound("Sounds/Kids Booing.mp3")
+local failChannel
+
+--load and the you win sound
+local winSound = audio.loadSound("Sounds/Winner.mp3")
+local winChannel
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -139,6 +156,7 @@ local function LoseScreenTransition( )
 
         if (numberCorrect == 5) then
         composer.gotoScene( "you_win", {effect = "zoomInOutFade", time = 1000})
+        winChannel = audio.play(winSound)
     end
 end 
 
@@ -171,6 +189,9 @@ local function RestartScene()
 
     -- if they have 0 lives, go to the You Lose screen
     if (lives == 0) then
+
+         --play the you lose sound
+         failChannel = audio.play(failSound)
         composer.gotoScene("you_lose")
     else 
 
@@ -333,6 +354,11 @@ function scene:create( event )
     correct:setTextColor(100/255, 47/255, 210/255)
     correct.isVisible = false
 
+        -- create the text object that will say Correct, set the colour and then hide it
+    incorrect = display.newText("incorrect", display.contentWidth/2, display.contentHeight*1/3, nil, 50 )
+    incorrect:setTextColor(100/255, 47/255, 210/255)
+    incorrect.isVisible = false
+
     -- create the text object that will say Out of Time, set the colour and then hide it
     outOfTimeText = display.newText("Out of Time!", display.contentWidth*2/5, display.contentHeight*1/3, nil, 50)
     outOfTimeText:setTextColor(100/255, 47/255, 210/255)
@@ -353,6 +379,7 @@ function scene:create( event )
     sceneGroup:insert( wrongAnswer3TextObject )
     sceneGroup:insert( congratulationText )
     sceneGroup:insert( correct )
+    sceneGroup:insert( incorrect )
     sceneGroup:insert( level1Text )
 end
 
