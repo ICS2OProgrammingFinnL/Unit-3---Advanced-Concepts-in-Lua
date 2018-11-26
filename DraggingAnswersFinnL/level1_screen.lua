@@ -69,6 +69,13 @@ local userAnswerBoxPlaceholder
 local correctSound
 local booSound
 
+
+
+
+
+local bkgMusic = audio.loadSound("Sounds/EpicMusic.mp3")
+local bkgMusicChannel
+
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -426,6 +433,7 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         RestartLevel1()
         AddAnswerBoxEventListeners() 
+        bkgMusicChannel = audio.play(bkgMusic)
 
     end
 
@@ -454,6 +462,7 @@ function scene:hide( event )
         -- Called immediately after scene goes off screen.
         audio.stop()
         RemoveAnswerBoxEventListeners()
+
     end
 
 end --function scene:hide( event )
