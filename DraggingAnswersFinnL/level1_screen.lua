@@ -72,7 +72,7 @@ local booSound
 
 
 
-
+--load bkg music
 local bkgMusic = audio.loadSound("Sounds/EpicMusic.mp3")
 local bkgMusicChannel
 
