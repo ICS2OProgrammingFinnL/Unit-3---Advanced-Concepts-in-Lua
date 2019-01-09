@@ -1,8 +1,8 @@
 -----------------------------------------------------------------------------------------
 --
 -- credits_screen.lua
--- Created by: Daniel Lopez-Carreon
--- Date: Nov. 24th, 2014
+-- Created by: Finn
+-- Date: 
 -- Description: This is the you lose screen
 -----------------------------------------------------------------------------------------
 
