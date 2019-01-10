@@ -150,7 +150,7 @@ local function PositionAnswers()
         answerbox.y = display.contentHeight * 0.4
 
         --alternateAnswerBox3
-        alternateAnswerBox3.y = display.contentHeight * 0.2
+        alternateAnswerBox3.y = display.contentHeight * 0.15
        
         --alternateAnswerBox2
         alternateAnswerBox2.y = display.contentHeight * 0.70
@@ -162,12 +162,13 @@ local function PositionAnswers()
         --remembering their positions to return the answer in case it's wrong
         alternateAnswerBox1PreviousY = alternateAnswerBox1.y
         alternateAnswerBox2PreviousY = alternateAnswerBox2.y
+        alternateAnswerBox3PreviousY = alternateAnswerBox3.y
         answerboxPreviousY = answerbox.y 
 
     -- random position 2
     elseif (randomPosition == 2) then
 
-        answerbox.y = display.contentHeight * 0.2
+        answerbox.y = display.contentHeight * 0.15
 
         --alternateAnswerBox3
         alternateAnswerBox3.y = display.contentHeight * 0.55
@@ -181,20 +182,24 @@ local function PositionAnswers()
         --remembering their positions to return the answer in case it's wrong
         alternateAnswerBox1PreviousY = alternateAnswerBox1.y
         alternateAnswerBox2PreviousY = alternateAnswerBox2.y
+        alternateAnswerBox3PreviousY = alternateAnswerBox3.y
         answerboxPreviousY = answerbox.y 
 
     -- random position 3
      elseif (randomPosition == 3) then
         answerbox.y = display.contentHeight * 0.70
 
+     
+
+        --alternateAnswerBox1
+        alternateAnswerBox1.y = display.contentHeight * 0.15
+
         --alternateAnswerBox2
         alternateAnswerBox2.y = display.contentHeight * 0.55
 
-        --alternateAnswerBox1
-        alternateAnswerBox1.y = display.contentHeight * 0.4
-
         --alternateAnswerBox3
-        alternateAnswerBox3.y = display.contentHeight * 0.2
+        alternateAnswerBox3.y = display.contentHeight * 0.4
+
 
         --remembering their positions to return the answer in case it's wrong
         alternateAnswerBox1PreviousY = alternateAnswerBox1.y
@@ -212,7 +217,7 @@ local function PositionAnswers()
         alternateAnswerBox1.y = display.contentHeight * 0.4
 
         --alternateAnswerBox3
-        alternateAnswerBox3.y = display.contentHeight * 0.2
+        alternateAnswerBox3.y = display.contentHeight * 0.15
 
         --remembering their positions to return the answer in case it's wrong
         alternateAnswerBox1PreviousY = alternateAnswerBox1.y
@@ -245,8 +250,8 @@ end
 local function TouchListenerAnswerbox(touch)
     --only work if none of the other boxes have been touched
     if (alternateAnswerBox1AlreadyTouched == false) and 
-        (alternateAnswerBox2AlreadyTouched == false) then
-
+        (alternateAnswerBox2AlreadyTouched == false) and
+        (alternateAnswerBox3AlreadyTouched == false) then
         if (touch.phase == "began") then
 
             --let other boxes know it has been clicked
@@ -289,6 +294,7 @@ end
 local function TouchListenerAnswerBox1(touch)
     --only work if none of the other boxes have been touched
     if (answerboxAlreadyTouched == false) and 
+        (alternateAnswerBox2AlreadyTouched == false) and
         (alternateAnswerBox2AlreadyTouched == false) then
 
         if (touch.phase == "began") then
@@ -329,7 +335,7 @@ end
 local function TouchListenerAnswerBox2(touch)
     --only work if none of the other boxes have been touched
     if (answerboxAlreadyTouched == false) and 
-        (alternateAnswerBox1AlreadyTouched == false) then
+        (alternateAnswerBox1AlreadyTouched == false) and
         (alternateAnswerBox3AlreadyTouched == false) then
 
         if (touch.phase == "began") then
@@ -369,7 +375,7 @@ end
 local function TouchListenerAnswerBox3(touch)
     --only work if none of the other boxes have been touched
     if (answerboxAlreadyTouched == false) and 
-        (alternateAnswerBox1AlreadyTouched == false) then
+        (alternateAnswerBox1AlreadyTouched == false) and
         (alternateAnswerBox2AlreadyTouched == false) then
 
         if (touch.phase == "began") then
@@ -390,9 +396,9 @@ local function TouchListenerAnswerBox3(touch)
                 ((userAnswerBoxPlaceholder.y - userAnswerBoxPlaceholder.height/2) < alternateAnswerBox3.y ) and 
                 ((userAnswerBoxPlaceholder.y + userAnswerBoxPlaceholder.height/2) > alternateAnswerBox3.y ) ) then
 
-                alternateAnswerBox2.x = userAnswerBoxPlaceholder.x
-                alternateAnswerBox2.y = userAnswerBoxPlaceholder.y
-                userAnswer = alternateAnswer2
+                alternateAnswerBox3.x = userAnswerBoxPlaceholder.x
+                alternateAnswerBox3.y = userAnswerBoxPlaceholder.y
+                userAnswer = alternateAnswer3
 
                 -- call the function to check if the user's input is correct or not
                 CheckUserAnswerInput()
@@ -469,13 +475,13 @@ function scene:create( event )
     answerbox = display.newText("", display.contentWidth * 0.9, 0, nil, 100)
     alternateAnswerBox1 = display.newText("", display.contentWidth * 0.9, 0, nil, 100)
     alternateAnswerBox2 = display.newText("", display.contentWidth * 0.9, 0, nil, 100)
-    alternateAnswerBox2 = display.newText("", display.contentWidth * 0.9, 0, nil, 100)
+    alternateAnswerBox3 = display.newText("", display.contentWidth * 0.9, 0, nil, 100)
 
     -- set the x positions of each of the answer boxes
     answerboxPreviousX = display.contentWidth * 0.9
     alternateAnswerBox1PreviousX = display.contentWidth * 0.9
     alternateAnswerBox2PreviousX = display.contentWidth * 0.9
-    alternateAnswerBox2PreviousX = display.contentWidth * 0.9
+    alternateAnswerBox3PreviousX = display.contentWidth * 0.9
 
 
     -- the black box where the user will drag the answer
