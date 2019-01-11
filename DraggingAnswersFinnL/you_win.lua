@@ -31,6 +31,7 @@ local scene = composer.newScene( sceneName ) -- This function doesn't accept a s
 -----------------------------------------------------------------------------------------
 local bkg_image
 
+
 -- The function called when the screen doesn't exist
 function scene:create( event )
 
@@ -74,6 +75,11 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
+        local youWin =  audio.loadSound("Sounds/victory.mp3")
+        local youWinChannel
+
+        youWinChannel = audio.play(youWin)
+
     end
 
 end -- function scene:show( event )

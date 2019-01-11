@@ -40,6 +40,11 @@ local alternateAnswer1
 local alternateAnswer2
 local alternateAnswer3    
 
+--lives
+local numLives = 2
+--keep track of correct answers
+local numCorrect = 0
+
 -- Variables containing the user answer and the actual answer
 local userAnswer
 
@@ -74,11 +79,24 @@ local correctSound
 local booSound
 
 
+--display heart image
+local heart1
+local heart2
 
+--incorrect and correct texts
+local incorrectText
+local correctText
 
 --load bkg music
 local bkgMusic = audio.loadSound("Sounds/EpicMusic.mp3")
 local bkgMusicChannel
+
+local correctSound = audio.loadSound("Sounds/Correct.wav")
+local correctSoundChannel
+
+local incorrectSound = audio.loadSound("Sounds/boo.mp3")
+local incorrectSoundChannel
+
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -121,7 +139,7 @@ local function DetermineAlternateAnswers()
     alternateAnswerBox2.text = alternateAnswer2
 
         -- generate incorrect answer and set it in the textbox
-    alternateAnswer3 = correctAnswer + math.random(1, 4)
+    alternateAnswer3 = correctAnswer + math.random(1, 2)
     alternateAnswerBox3.text = alternateAnswer3
 
 -------------------------------------------------------------------------------------------
@@ -234,6 +252,11 @@ local function YouWinTransitionLevel1( )
     composer.gotoScene("you_win", {effect = "fade", time = 500})
 end
 
+-- Transitioning Function to YouLose screen
+local function YouLoseTransitionLevel1( )
+    composer.gotoScene("you_lose", {effect = "fade", time = 500})
+end
+
 -- Function to Restart Level 1
 local function RestartLevel1()
     DisplayQuestion()
@@ -241,11 +264,65 @@ local function RestartLevel1()
     PositionAnswers()    
 end
 
+
+local function updateHearts( )
+        -- checks amount of lives and removes hearts
+        if(numLives == 1) then
+        heart1.isVisible = false
+        elseif(numLives == 0) then
+        heart1.isVisible = false
+        heart2.isVisible = false
+        timer.performWithDelay(1000, YouLoseTransitionLevel1)
+    end
+end
+
+local function Correct()
+    -- check if they have answered enough questions correctly
+    if (numCorrect == 3) then
+        heart1.isVisible = false
+        heart2.isVisible = false
+        timer.performWithDelay(1000, YouWinTransitionLevel1)
+    end    
+end
+
+--make text invisible
+local function invisibleText()
+    correctText.isVisible = false
+    incorrectText.isVisible = false
+end    
+
+
 -- Function to Check User Input
 local function CheckUserAnswerInput()
+
+    if(userAnswer == correctAnswer)then
+        --play sound
+       correctSoundChannel = audio.play(correctSound)
+        numCorrect = numCorrect + 1
+        --display correct text
+        correctText.isVisible = true
+
+        --make text invisible
+        timer.performWithDelay(1600, invisibleText)
+        timer.performWithDelay(500, Correct)
+    else
+        --play sound
+       incorrectSoundChannel = audio.play(incorrectSound)
+        --display incorrect text
+        incorrectText.isVisible = true
+        --take a life
+        numLives = numLives - 1
+        updateHearts()
+        --make text invisible
+        timer.performWithDelay(1600, invisibleText)
+    end    
+
           
     timer.performWithDelay(1600, RestartLevel1) 
 end
+
+
+
 
 local function TouchListenerAnswerbox(touch)
     --only work if none of the other boxes have been touched
@@ -455,6 +532,14 @@ function scene:create( event )
     bkg_image.width = display.contentWidth
     bkg_image.height = display.contentHeight
 
+   heart1 = display.newImageRect("Images/heart.png",100, 100)
+   heart1.x = 100 
+   heart1.y = 100
+
+   heart2 = display.newImageRect("Images/heart.png",100, 100)
+   heart2.x = 100
+   heart2.y = 200
+
     --the text that displays the question
     questionText = display.newText( "" , 0, 0, nil, 100)
     questionText.x = display.contentWidth * 0.3
@@ -488,6 +573,15 @@ function scene:create( event )
     userAnswerBoxPlaceholder = display.newImageRect("Images/userAnswerBoxPlaceholder.png",  130, 130, 0, 0)
     userAnswerBoxPlaceholder.x = display.contentWidth * 0.6
     userAnswerBoxPlaceholder.y = display.contentHeight * 0.9
+
+    --make correct and incorrect texts
+    correctText = display.newText("Correct!", 500, 500,nil, 50)
+    correctText:setTextColor(25/255, 250/255, 55/255)
+ 
+    incorrectText = display.newText("Incorrect!", 500, 500,nil, 50)
+    incorrectText:setTextColor(250/255, 50/255, 50/255)
+    incorrectText.isVisible = false
+    correctText.isVisible = false
 
     ----------------------------------------------------------------------------------
     --adding objects to the scene group
