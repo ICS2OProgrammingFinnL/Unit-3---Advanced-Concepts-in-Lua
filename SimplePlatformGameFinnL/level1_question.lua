@@ -41,10 +41,12 @@ local secondNumber
 local answer
 local wrongAnswer1
 local wrongAnswer2
+local wrongAnswer3
 
 local answerText 
 local wrongAnswerText1
 local wrongAnswerText2
+lcoal wrongAnswerText3
 
 local answerPosition = 1
 local bkg
@@ -110,6 +112,7 @@ local function AddTextListeners ( )
     answerText:addEventListener( "touch", TouchListenerAnswer )
     wrongText1:addEventListener( "touch", TouchListenerWrongAnswer)
     wrongText2:addEventListener( "touch", TouchListenerWrongAnswer2)
+    wrongText3:addEventListener( "touch", TouchListenerWrongAnswer3)
 end
 
 --removing the event listeners
@@ -117,6 +120,7 @@ local function RemoveTextListeners()
     answerText:removeEventListener( "touch", TouchListenerAnswer )
     wrongText1:removeEventListener( "touch", TouchListenerWrongAnswer)
     wrongText2:removeEventListener( "touch", TouchListenerWrongAnswer2)
+    wrongText3:removeEventListener( "touch", TouchListenerWrongAnswer3)
 end
 
 local function DisplayQuestion()
@@ -130,6 +134,7 @@ local function DisplayQuestion()
     -- calculate wrong answers
     wrongAnswer1 = answer + math.random(1, 3)
     wrongAnswer2 = answer + math.random(4, 6)
+    wrongAnswer3 = answer - math.random(1,2)
 
 
     --creating the question depending on the selcetion number
@@ -141,12 +146,13 @@ local function DisplayQuestion()
     --creating wrong answers
     wrongText1.text = wrongAnswer1
     wrongText2.text = wrongAnswer2
+    wrongText3.text = wrongAnswer3
 end
 
 local function PositionAnswers()
 
     --creating random start position in a cretain area
-    answerPosition = math.random(1,3)
+    answerPosition = math.random(1,4)
 
     if (answerPosition == 1) then
 
