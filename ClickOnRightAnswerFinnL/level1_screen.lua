@@ -152,11 +152,12 @@ local function DisplayAnswers( )
 end
 
 -- Function that transitions to Lose Screen
-local function LoseScreenTransition( )    
+local function WinScreenTransition( )    
 
         if (numberCorrect == 5) then
+        winChannel = audio.play(winSound)    
         composer.gotoScene( "you_win", {effect = "zoomInOutFade", time = 1000})
-        winChannel = audio.play(winSound)
+        
     end
 end 
 
@@ -183,6 +184,7 @@ local function RestartScene()
 
     alreadyClickedAnswer = false
     correct.isVisible = false
+    incorrect.isVisible = false
 
     livesText.text = "Number of lives = " .. tostring(lives)
     numberCorrectText.text = "Number correct = " .. tostring(numberCorrect)
@@ -215,7 +217,7 @@ local function TouchListenerAnswer(touch)
             correct.isVisible = true
             -- increase the number correct by 1
             numberCorrect = numberCorrect + 1
-            LoseScreenTransition()
+            WinScreenTransition()
             -- call RestartScene after 1 second
             timer.performWithDelay( 1000, RestartScene )
         end        
@@ -233,6 +235,7 @@ local function TouchListenerWrongAnswer1(touch)
 
 
         if (answer ~= tonumber(userAnswer)) then
+            incorrect.isVisible = true
             -- decrease a life
             lives = lives - 1
             -- call RestartScene after 1 second
@@ -253,6 +256,7 @@ local function TouchListenerWrongAnswer2(touch)
 
 
             if (answer ~= tonumber(userAnswer)) then
+                incorrect.isVisible = true
                 -- decrease a life
                 lives = lives - 1
                 -- call RestartScene after 1 second
@@ -273,6 +277,7 @@ local function TouchListenerWrongAnswer3(touch)
 
 
             if (answer ~= tonumber(userAnswer)) then
+                incorrect.isVisible = true
                 -- decrease a life
                 lives = lives - 1
                 -- call RestartScene after 1 second
